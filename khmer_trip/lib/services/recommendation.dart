@@ -1,5 +1,10 @@
 import '../models/destination.dart';
 
 class RecommendationService {
-  // Add recommendation methods here
+  List<Destination> recommend(
+  List<Destination> destinations,
+  List<String> interests,
+  ) {
+    return [];
+  }
 }

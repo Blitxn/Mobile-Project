@@ -19,23 +19,14 @@ void main() {
     });
 
     test('prevents duplicate favorites', () {
-      // Arrange: Add a destination.
-
-      // Act: Add the same destination again.
-
-      // Assert: Check that it appears only once.
     });
 
     test('removes a destination from favorites', () {
-      // Arrange: Add a destination.
-
-      // Act: Remove it.
-
-      // Assert: Check that it is no longer in favorites.
+      
     });
 
     test('returns an empty list when there are no favorites', () {
-      // Assert: Check that favorites is empty.
+    
     });
   });
 }
