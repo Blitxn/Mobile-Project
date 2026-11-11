@@ -1,32 +1,53 @@
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:khmer_trip/models/destination.dart';
-import 'package:khmer_trip/models/tripplan.dart';
-import 'package:khmer_trip/services/tripplanservice.dart';
+import 'package:khmer_trip/services/destination_service.dart';
 
 void main() {
-  group('TripPlanService', () {
-    late TripPlanService service;
+  late DestinationService destinationService;
 
-    setUp(() {
-      service = TripPlanService();
-    });
+  setUp(() {
+    destinationService = DestinationService();
+  });
 
-    test('adds destination to trip', () {
-    });
+  test('Get all destinations', () {
+    final result = destinationService.getAllDestinations();
 
-    test('prevents duplicate destinations', () {
-    });
+    expect(result, isNotEmpty);
+  });
 
-    test('calculates daily cost correctly', () {
-    });
+  test('Search destination by name', () {
+    final result = destinationService.searchDestinations('Bokor');
 
-    test('detects expenses exceeding daily budget', () {
-    });
+    expect(result, isNotEmpty);
+    expect(result.first.name, 'Bokor Mountain');
+  });
 
-    test('rejects an invalid trip day', () {
-    });
+  test('Search destination without matching name', () {
+    final result = destinationService.searchDestinations('Unknown Place');
 
-    test('removes destination and recalculates cost', () {
-    });
+    expect(result, isEmpty);
+  });
+
+  test('Filter destinations by category', () {
+    final result = destinationService.filterByCategory('Mountains');
+
+    expect(result, isNotEmpty);
+
+    for (var destination in result) {
+      expect(destination.categories, contains('Mountains'));
+    }
+  });
+
+  test('Find destination by ID', () {
+    final result = destinationService.getDestinationById('1');
+
+    expect(result, isNotNull);
+    expect(result!.name, 'Bokor Mountain');
+  });
+
+  test('Return null for unknown destination ID', () {
+    final result = destinationService.getDestinationById('999');
+
+    expect(result, isNull);
   });
 }
