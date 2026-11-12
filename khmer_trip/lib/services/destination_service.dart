@@ -1,4 +1,3 @@
-
 import '../models/destination.dart';
 import '../data/destinationdata.dart';
 
@@ -10,14 +9,14 @@ class DestinationService {
 
   // Search by destination name
   List<Destination> searchDestinations(String query) {
-    if (query.isEmpty) {
-      return destinations;
-    }
+    if (query.trim().isEmpty) {
+        return List.unmodifiable(destinations);
+}
 
     return destinations.where((destination) {
       return destination.name
           .toLowerCase()
-          .contains(query.toLowerCase());
+          .contains(query.trim().toLowerCase());
     }).toList();
   }
 
