@@ -11,16 +11,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:khmer_trip/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
- 
+  testWidgets('App renders its welcome screen', (WidgetTester tester) async {
     await tester.pumpWidget(const MyApp());
 
-  
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.text('Khmer Trip'), findsOneWidget);
+    expect(find.text('Welcome to Khmer Trip!'), findsOneWidget);
   });
 }

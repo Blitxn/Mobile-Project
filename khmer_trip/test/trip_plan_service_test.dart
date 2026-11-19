@@ -1,53 +1,62 @@
-
 import 'package:flutter_test/flutter_test.dart';
-import 'package:khmer_trip/services/destination_service.dart';
+import 'package:khmer_trip/models/destination.dart';
+import 'package:khmer_trip/services/trip_plan_service.dart';
 
 void main() {
-  late DestinationService destinationService;
+  group('TripPlanService', () {
+    late TripPlanService service;
+    late List<Destination> destinations;
 
-  setUp(() {
-    destinationService = DestinationService();
-  });
+    setUp(() {
+      service = TripPlanService();
+      destinations = [
+        Destination(
+          id: '1',
+          name: 'Bokor Mountain',
+          location: 'Kampot',
+          categories: ['Mountains'],
+          description: 'Mountain destination.',
+          images: [],
+          activities: ['Hiking'],
+          dailyCost: 25.0,
+        ),
+        Destination(
+          id: '2',
+          name: 'Koh Rong',
+          location: 'Sihanoukville',
+          categories: ['Islands'],
+          description: 'Island destination.',
+          images: [],
+          activities: ['Swimming'],
+          dailyCost: 40.0,
+        ),
+      ];
+    });
 
-  test('Get all destinations', () {
-    final result = destinationService.getAllDestinations();
+    test('Calculate daily cost', () {
+      expect(service.calculateDailyCost(destinations), 65.0);
+    });
 
-    expect(result, isNotEmpty);
-  });
+    test('Calculate total cost', () {
+      expect(service.calculateTotalCost(destinations, 3), 195.0);
+    });
 
-  test('Search destination by name', () {
-    final result = destinationService.searchDestinations('Bokor');
+    test('Calculate remaining budget', () {
+      expect(service.calculateRemainingBudget(300.0, 195.0), 105.0);
+    });
 
-    expect(result, isNotEmpty);
-    expect(result.first.name, 'Bokor Mountain');
-  });
+    test('Invalid trip duration', () {
+      expect(
+        () => service.calculateTotalCost(destinations, 0),
+        throwsArgumentError,
+      );
+    });
 
-  test('Search destination without matching name', () {
-    final result = destinationService.searchDestinations('Unknown Place');
-
-    expect(result, isEmpty);
-  });
-
-  test('Filter destinations by category', () {
-    final result = destinationService.filterByCategory('Mountains');
-
-    expect(result, isNotEmpty);
-
-    for (var destination in result) {
-      expect(destination.categories, contains('Mountains'));
-    }
-  });
-
-  test('Find destination by ID', () {
-    final result = destinationService.getDestinationById('1');
-
-    expect(result, isNotNull);
-    expect(result!.name, 'Bokor Mountain');
-  });
-
-  test('Return null for unknown destination ID', () {
-    final result = destinationService.getDestinationById('999');
-
-    expect(result, isNull);
+    test('Empty destination list', () {
+      expect(
+        () => service.calculateTotalCost([], 3),
+        throwsArgumentError,
+      );
+    });
   });
 }

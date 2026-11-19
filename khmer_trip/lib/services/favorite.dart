@@ -4,7 +4,8 @@ import '../models/traveler.dart';
 
 class FavoriteService {
   final Traveler traveler;
-  FavoriteService({required this.traveler});
+  FavoriteService({Traveler? traveler})
+      : traveler = traveler ?? Traveler(id: 'default', name: 'Traveler');
 
   void addFavorite(Destination destination) {
     traveler.addFavorite(destination);
